@@ -1,14 +1,22 @@
 import re
 # testing change
-def web(search):
+def web():
     from bs4 import BeautifulSoup
     import requests
-    response = requests.get("https://www.google.com/search", params={'q': search})
-    soup = BeautifulSoup(response.text, 'html.parser')
-    search_results = soup.find_all('div', class_='BNeawe')
-    if search_results:
-        return search_results[0].text
-    return "Error during web search. Try again..."
+    ans = "Exited from web"
+    while True:
+        search = input("Enter your question for web search (Type exit to exit): ")
+        if search.lower() == "exit":
+            break
+        response = requests.get("https://www.google.com/search", params={'q': search})
+        soup = BeautifulSoup(response.text, 'html.parser')
+        search_results = soup.find_all('div', class_='BNeawe')
+        if search_results:
+            ans = search_results[0].text
+            print(f"Chatbot:{ans}")
+        else:
+            ans = "Error during web search. Try again..."
+    return ans
 def chatbot_response(user_input):
 
     user_input = user_input.lower()
@@ -16,8 +24,7 @@ def chatbot_response(user_input):
     if re.search(r'\bhello\b|\bhi\b|\bhey\b', user_input):
         return "Hello! How can I assist you today?"
     elif re.search(r'\bweb\b', user_input):
-        web_search = input("Enter your question for web search: ")
-        return web(web_search)
+        return web()
     elif re.search(r'\bhow are you\b', user_input):
         return "I'm just a bunch of code, but I'm doing great! How about you?"
     elif re.search(r'\b(your name|who are you)\b', user_input):
