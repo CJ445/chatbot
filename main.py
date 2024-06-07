@@ -3,8 +3,8 @@ import re
 def web():
     from bs4 import BeautifulSoup
     import requests
-    ans = "Exited from web"
     while True:
+        ans = "Exited from web"
         search = input("Enter your question for web search (Type exit to exit): ")
         if search.lower() == "exit":
             break
